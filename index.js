@@ -40,9 +40,19 @@ async function main() { //definição de funcção assíncrona para executar as 
 //O bloco abaixo tenta realizar o reconhecimento de texto na imagem convertida, caso ocorra algum erro, ele será capturado e exibido no console.
     try {
         const text = await tesseract.recognize('test_document-1.png', config) 
-        console.log("Texto reconhecido com sucesso!\n", text) 
+        console.log("Texto reconhecido com sucesso!\n"/*, text*/) 
+
+//Implementação do uso da expressão regular para extrair o valor total do pedido 
+        const regex = /TOTAL\s*R\$?\s*([\d\.,]+)/i; //expressão regular para encontrar o valor com base na palavra "TOTAL" usando /i para ignorar maiúsculas e minúsculas
+        const match = text.match(regex); //aplicando o regex no texto reconhecido e usando a função match para encontrar o valor
+        if (match) { //se o retorno da função match for verdadeiro, retorna o valor encontrado
+            console.log("Valor TOTAL encontrado:", match[0]); //linha inteira do regex (com a cifra e espaço)
+            console.log("Apenas o valor:", match[1]); //apenas o valor (sem a cifra e espaço) 
+        } else {
+            console.log("Valor TOTAL não encontrado."); //retorno caso não encontre o valor
+        }
     } catch (error) {
-      console.log("Erro na leitura do texto\n", error.message)
+      console.log("Erro na leitura do texto\n", error.message) //caso ocorra algum erro na leitura do texto, exibe a mensagem de erro
       }
 }
 
