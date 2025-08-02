@@ -42,18 +42,40 @@ async function main() { //definição de funcção assíncrona para executar as 
         const text = await tesseract.recognize('test_document-1.png', config) 
         console.log("Texto reconhecido com sucesso!\n"/*, text*/) 
 
-//Implementação do uso da expressão regular para extrair o valor total do pedido 
-        const regex = /TOTAL\s*R\$?\s*([\d\.,]+)/i; //expressão regular para encontrar o valor com base na palavra "TOTAL" usando /i para ignorar maiúsculas e minúsculas
-        const match = text.match(regex); //aplicando o regex no texto reconhecido e usando a função match para encontrar o valor
+//Implementação do uso de expressões regulares no texto reconhecido para extrair infos do pedido 
+       
+    //Buscando nome do cliente no texto reconhecido
+        const regexNome = /DADOS\s*DO\s*CLIENTE[\s\S]*?Nome[:\s]*([^\n\r]{1,33})/i;
+        const matchNome = text.match(regexNome);
+        if (matchNome) {
+            console.log("Nome do cliente encontrado:", matchNome[1]);
+        } else {
+            console.log("Nome do cliente não encontrado.");
+        }
+
+    //Buscando a data de entrega no texto reconhecido
+        const regexData = /Data\s*entrega[:\s]*([0-3]?\d\/[01]?\d\/\d{2,4})/i;
+        const matchData = text.match(regexData);
+        if (matchData) {
+            console.log("Data de Entrega encontrada:", matchData[1]);
+        } else {
+            console.log("Data de Entrega não encontrada.");
+        }
+
+    //Buscando Valor TOTAL no texto reconhecido
+        const regexValor = /TOTAL\s*R\$?\s*([\d\.,]+)/i; //expressão regular para encontrar o valor com base na palavra "TOTAL" usando /i para ignorar maiúsculas e minúsculas
+        const match = text.match(regexValor); //aplicando o regex no texto reconhecido e usando a função match para encontrar o valor
         if (match) { //se o retorno da função match for verdadeiro, retorna o valor encontrado
             console.log("Valor TOTAL encontrado:", match[0]); //linha inteira do regex (com a cifra e espaço)
-            console.log("Apenas o valor:", match[1]); //apenas o valor (sem a cifra e espaço) 
+           // console.log("Apenas o valor:", match[1]); //apenas o valor (sem a cifra e espaço) 
         } else {
             console.log("Valor TOTAL não encontrado."); //retorno caso não encontre o valor
         }
     } catch (error) {
       console.log("Erro na leitura do texto\n", error.message) //caso ocorra algum erro na leitura do texto, exibe a mensagem de erro
       }
+
+    
 }
 
 main(); //chamada da função assincrona principal para executar as operações!
