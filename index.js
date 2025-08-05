@@ -63,18 +63,45 @@ async function main() { //definição de funcção assíncrona para executar as 
         }
 
     //Buscando Valor TOTAL no texto reconhecido
-        const regexValor = /TOTAL\s*R\$?\s*([\d\.,]+)/i; //expressão regular para encontrar o valor com base na palavra "TOTAL" usando /i para ignorar maiúsculas e minúsculas
-        const match = text.match(regexValor); //aplicando o regex no texto reconhecido e usando a função match para encontrar o valor
-        if (match) { //se o retorno da função match for verdadeiro, retorna o valor encontrado
-            console.log("Valor TOTAL encontrado:", match[0]); //linha inteira do regex (com a cifra e espaço)
+        const regexValor =  /TOTAL\s*R\$?\s*([\d\.,]+)/i; //expressão regular para encontrar o valor com base na palavra "TOTAL" usando /i para ignorar maiúsculas e minúsculas
+        const matchValt = text.match(regexValor); //aplicando o regex no texto reconhecido e usando a função match para encontrar o valor
+        if (matchValt) { //se o retorno da função match for verdadeiro, retorna o valor encontrado
+            console.log("Valor TOTAL encontrado:", matchValt[1]); //linha inteira do regex (com a cifra e espaço)
            // console.log("Apenas o valor:", match[1]); //apenas o valor (sem a cifra e espaço) 
         } else {
             console.log("Valor TOTAL não encontrado."); //retorno caso não encontre o valor
         }
+
+        //Buscando observações no texto reconhecido
+        const regexObs = /Observa(?:ções|gées):\s*([^\n\r]*)/i;
+        const matchObs = text.match(regexObs);
+        if (matchObs) {
+            console.log("Observações encontradas:", matchObs[1].trim());
+        } else {
+            console.log("Observações do pedido não encontradas.");
+        }
+
+        //Buscando forma de pagamento no texto reconhecido
+        const regexPagamento = /Forma de Pagamento:\s*([^\n\r]*)/i;
+        const matchPagamento = text.match(regexPagamento);
+        if (matchPagamento) {
+            console.log("Forma de Pagamento encontrada:", matchPagamento[1].trim());
+        } else {
+            console.log("Forma de Pagamento não encontrada.");
+        }
+
+      //Buscando valor do frete no texto reconhecido
+        const regexFrete = /Frete\s*R\$?\s*([\d\.,]+)/i;
+        const matchFrete = text.match(regexFrete);
+        if (matchFrete) {
+            console.log("Valor do Frete encontrado:", matchFrete[1].trim());
+        } else {
+            console.log("Valor do Frete não encontrado.");
+        }
+                        
     } catch (error) {
       console.log("Erro na leitura do texto\n", error.message) //caso ocorra algum erro na leitura do texto, exibe a mensagem de erro
       }
-
     
 }
 
