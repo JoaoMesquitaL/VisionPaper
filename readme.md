@@ -28,6 +28,7 @@ _obs: o projeto foi desenvolvido em uma plataforma Windows 11 sendo, assim caso 
 2. Após essa instalação pode prosseguir para a instalação do pacote node do tesseract: "npm install node-tesseract-ocr"
 3. Use o primeiro exemplo listado como Usage na página web do tesseract para validar o OCR com um arquivo .jpg simples (https://www.npmjs.com/package/node-tesseract-ocr)
 4. Para executar o exemplo rode "node index.js" _substitiur "index.js" por qualquer que seja o nome do arquivo principal do seu projeto node_
+5. Para que o tesseract seja capaz de compreender portugues, é necessário baixar o arquivo "por.traneddata" com as informações do tesseract treinado em portugues e coloca-lo na pasta "tessdata" da sua instalação do tesseract"
 
 ## Instalando PDF Poppler
 1. Com o prompt de comando aberto no diretório do seu projeto, faça a instalação do Projeto Tesseract OCR através do seguinte comando: "npm i node-poppler"

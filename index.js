@@ -8,7 +8,7 @@ oem = modo de reconhecimento (0 legacy engine only, 1 LSTM engine only, 2 legacy
 psm = modo de segmentação de página (3 é o modo padrão, 6 é para uma única coluna de texto)
 */
 const config = {
-  lang: "eng", // default
+  lang: "por", // default
   oem: 3,
   psm: 3,
 }
@@ -40,7 +40,7 @@ async function main() { //definição de funcção assíncrona para executar as 
 //O bloco abaixo tenta realizar o reconhecimento de texto na imagem convertida, caso ocorra algum erro, ele será capturado e exibido no console.
     try {
         const text = await tesseract.recognize('test_document-1.png', config) 
-        console.log("Texto reconhecido com sucesso!\n"/*, text*/) 
+        console.log("Texto reconhecido com sucesso!\n", text) 
 
 //Implementação do uso de expressões regulares no texto reconhecido para extrair infos do pedido 
        
@@ -52,6 +52,25 @@ async function main() { //definição de funcção assíncrona para executar as 
         } else {
             console.log("Nome do cliente não encontrado.");
         }
+
+    //Buscando item do pedido de compra
+        /*const regexItemPed = ;
+        const matchItemPed = text.match(regexItemPed);
+        if (matchItemPed) {
+            console.log("Item do pedido encontrado: ", matchItemPed[1]);
+        } else {
+            console.log("Item do pedido não encontrado.");
+        }*/
+    
+
+    //Buscando valor unitário do produto
+        /*const regexValUnit = ;
+        const matchValUnit = text.match(regexValUnit);
+        if (matchValUnit){
+            console.log("Valor unitario do Pedido encontrado: ", matchValUnit[1]);
+        } else {
+            console.log("Valor unitário do item não encontrado");
+        }*/
 
     //Buscando a data de entrega no texto reconhecido
         const regexData = /Data\s*entrega[:\s]*([0-3]?\d\/[01]?\d\/\d{2,4})/i;
