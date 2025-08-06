@@ -54,23 +54,23 @@ async function main() { //definição de funcção assíncrona para executar as 
         }
 
     //Buscando item do pedido de compra
-        /*const regexItemPed = ;
+        const regexItemPed = /Descrição.*(?:\r?\n){2}\s*([^\n\r]{1,15})/i;
         const matchItemPed = text.match(regexItemPed);
         if (matchItemPed) {
             console.log("Item do pedido encontrado: ", matchItemPed[1]);
         } else {
             console.log("Item do pedido não encontrado.");
-        }*/
+        }
     
 
     //Buscando valor unitário do produto
-        /*const regexValUnit = ;
+        const regexValUnit = /Valor Unit[aá]rio[\s\S]*?(?:\r?\n){2}[^\r\n]*?(R\$\s?\d{1,3},\d{2})/
         const matchValUnit = text.match(regexValUnit);
         if (matchValUnit){
             console.log("Valor unitario do Pedido encontrado: ", matchValUnit[1]);
         } else {
             console.log("Valor unitário do item não encontrado");
-        }*/
+        }
 
     //Buscando a data de entrega no texto reconhecido
         const regexData = /Data\s*entrega[:\s]*([0-3]?\d\/[01]?\d\/\d{2,4})/i;
