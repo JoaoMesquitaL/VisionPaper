@@ -117,6 +117,15 @@ async function main() { //definição de funcção assíncrona para executar as 
         } else {
             console.log("Valor do Frete não encontrado.");
         }
+
+      //Buscando informações de quantidade do item
+        const regexQuantIT = /(\d+)\s*unid/i;
+        const matchQuantIT = text.match(regexQuantIT);
+        if(matchQuantIT) {
+            console.log("Quantidade do item encontrada: ", matchQuantIT[1])
+        } else {
+            console.log("Quantidade do item não encontrada.");
+        }
                         
     } catch (error) {
       console.log("Erro na leitura do texto\n", error.message) //caso ocorra algum erro na leitura do texto, exibe a mensagem de erro
