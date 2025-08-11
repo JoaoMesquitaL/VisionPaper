@@ -146,11 +146,29 @@ async function main() { //definição de funcção assíncrona para executar as 
         } else {
             console.log("Quantidade do item não encontrada.");
         }
+
+        gerarPayLoad(); //chamada da função para gerar o payload com as informações extraídas do texto reconhecido
                         
     } catch (error) {
       console.log("Erro na leitura do texto\n", error.message) //caso ocorra algum erro na leitura do texto, exibe a mensagem de erro
       }
-    
+
+      //gerando payload para banco
+      function gerarPayLoad() {
+        const payload = {
+            nomeCliente,
+            itemPedido,
+            vlUnitItem,
+            dtEntrega,
+            vlTotal,
+            obsPedido,
+            formaPagto,
+            vlFrete,
+            qtdItem
+        };
+        console.log("Payload gerado: \n", payload);
+    }
+
 }
 
 main(); //chamada da função assincrona principal para executar as operações!
