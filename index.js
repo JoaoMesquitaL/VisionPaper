@@ -55,6 +55,16 @@ async function main() { //definição de funcção assíncrona para executar as 
 
 //Implementação do uso de expressões regulares no texto reconhecido para extrair infos do pedido 
        
+    //Buscando número do pedido
+        const regexNumPed = /Nº\s?(\d+)/;
+        const matchNumPed = text.match(regexNumPed);
+        if (matchNumPed){
+            var numPedido = matchNumPed[1].trim();
+            console.log("Número do pedido encontrado:", numPedido);
+        } else {
+            console.log("Numero do pedido não encontrado");
+        }    
+
     //Buscando nome do cliente no texto reconhecido
         const regexNome = /DADOS\s*DO\s*CLIENTE[\s\S]*?Nome[:\s]*([^\n\r]{1,33})/i;
         const matchNome = text.match(regexNome);
