@@ -36,3 +36,21 @@ _obs: o projeto foi desenvolvido em uma plataforma Windows 11 sendo, assim caso 
 3. Para executar o exemplo rode "node index.js" _substitiur "index.js" por qualquer que seja o nome do arquivo principal do seu projeto node_
 
 _obs: após a instalação da primeira dependência do projeto, será criada uma pasta chamada "node modules" a qual armazenará todos os pacotes das dependencias node usadas. Também será criado uma versão do seu package.json chamada package-lock.json que nada mais é que uma versão mais abrangente do package.json_
+
+## Configurando o Banco de Dados
+
+_obs: para esse projeto está sendo utilizado um banco de dados MySql, adeque as instruções conforme necessário_
+
+1. Criando o Banco de dados: "CREATE DATABASE VISIONPAPER;"
+2. Criando a tabela de Pré-Pedido: "USE VISION PAPER; CREATE TABLE PREPEDIDO (
+	NumPedido int,
+    NomeCliente varchar(255),
+    ItemPedido varchar(255),
+    ValorUnitItem float,
+    QtdItem float,
+    ValorFrete float,
+    ValorTotal float,
+    Pagamento varchar(255),
+    DtEntrega date,
+    ObsPedido varchar(255)
+);"
