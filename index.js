@@ -166,6 +166,7 @@ async function main() { //definição de funcção assíncrona para executar as 
       //gerando payload para banco
       function gerarPayLoad() {
         const payload = {
+            numPedido,
             nomeCliente,
             itemPedido,
             vlUnitItem,
