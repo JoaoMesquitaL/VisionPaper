@@ -49,13 +49,6 @@ _obs: veja que no link passado para buscar o exemplo de execução pra validar a
 em nosso código usamos o "mysql2" isso se dá devido a um problema persistente no pacote original "mysql" que foi corrigido em um pacote que é mantido
 por uma comunidade de devs que é apenas uma variação do pacote original que possui a correção para os metodos "plugable" de autenticação._
 
-
-1. Com o prompt de comando aberto no diretório do seu projeto, faça a instalação do Projeto Tesseract OCR através do seguinte comando: "npm i node-poppler"
-2. Use o primeiro exemplo listado como poppler "pdfToCairo" com um arquivo pdf qualquer para validar a instalação
-3. Para executar o exemplo rode "node index.js" _substitiur "index.js" por qualquer que seja o nome do arquivo principal do seu projeto node_
-
-_obs: após a instalação da primeira dependência do projeto, será criada uma pasta chamada "node modules" a qual armazenará todos os pacotes das dependencias node usadas. Também será criado uma versão do seu package.json chamada package-lock.json que nada mais é que uma versão mais abrangente do package.json_
-
 ## Configurando o Banco de Dados
 
 _obs: para esse projeto está sendo utilizado um banco de dados MySql, adeque as instruções conforme necessário_
