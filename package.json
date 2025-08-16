@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "mysql": "^2.18.1",
     "node-poppler": "^8.0.4",
     "node-tesseract-ocr": "^2.2.1",
     "pdf-poppler": "^0.2.1",
