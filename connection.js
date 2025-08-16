@@ -1,4 +1,4 @@
-let mysql = require('mysql');
+let mysql = require('mysql2');
 
 let conn = mysql.createConnection({
     host: "127.0.0.1",
