@@ -6,6 +6,7 @@ A ideia é ter uma ferramenta simples, que seja capaz de receber um pdf simples,
 * NodeJS
 * Tesseract OCR
 * PDF-Poppler
+* MySql
 
 _obs: o projeto foi desenvolvido em uma plataforma Windows 11 sendo, assim caso utilize outro S.O verifique através dos links disponibilizados as instalações de acordo com seu Sistema Operacional vigente_
 
@@ -31,6 +32,24 @@ _obs: o projeto foi desenvolvido em uma plataforma Windows 11 sendo, assim caso 
 5. Para que o tesseract seja capaz de compreender portugues, é necessário baixar o arquivo "por.traneddata" com as informações do tesseract treinado em portugues e coloca-lo na pasta "tessdata" da sua instalação do tesseract"
 
 ## Instalando PDF Poppler
+1. Com o prompt de comando aberto no diretório do seu projeto, faça a instalação do Projeto Tesseract OCR através do seguinte comando: "npm i node-poppler"
+2. Use o primeiro exemplo listado como poppler "pdfToCairo" com um arquivo pdf qualquer para validar a instalação (https://www.npmjs.com/package/node-poppler)
+3. Para executar o exemplo rode "node index.js" _substitiur "index.js" por qualquer que seja o nome do arquivo principal do seu projeto node_
+
+_obs: após a instalação da primeira dependência do projeto, será criada uma pasta chamada "node modules" a qual armazenará todos os pacotes das dependencias node usadas. Também será criado uma versão do seu package.json chamada package-lock.json que nada mais é que uma versão mais abrangente do package.json_
+
+## Instalando MySql2
+1. Com o prompt de comando aberto no diretório do seu projeto, faça a instalação do MySql através do seguinte comando "npm install mysql2".
+2. Use o exemplo de conexão listado como "demo_db_connection.js" para validar sua instalação e conexão com o banco (https://www.w3schools.com/nodejs/nodejs_mysql.asp).
+3. Atente-se a substituir no "require" o valor "mysql" por "mysql2" que é o pacote que estamos utilizando.
+4. No exemplo substitua as variaveis "host", "user" e "password" conforme suas informações reais do banco de dados.
+5. Após isso execute em seu teminal "node demo_db_connectio.js" para validar sua conexão com o banco de dados.
+
+_obs: veja que no link passado para buscar o exemplo de execução pra validar a instalação do mysql o comando de instalação usa o pacote "mysql" e 
+em nosso código usamos o "mysql2" isso se dá devido a um problema persistente no pacote original "mysql" que foi corrigido em um pacote que é mantido
+por uma comunidade de devs que é apenas uma variação do pacote original que possui a correção para os metodos "plugable" de autenticação._
+
+
 1. Com o prompt de comando aberto no diretório do seu projeto, faça a instalação do Projeto Tesseract OCR através do seguinte comando: "npm i node-poppler"
 2. Use o primeiro exemplo listado como poppler "pdfToCairo" com um arquivo pdf qualquer para validar a instalação
 3. Para executar o exemplo rode "node index.js" _substitiur "index.js" por qualquer que seja o nome do arquivo principal do seu projeto node_
