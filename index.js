@@ -1,5 +1,6 @@
 const { Poppler } = require("node-poppler"); //requerendo poppler para conversão de PDF para PNG
 const tesseract = require("node-tesseract-ocr"); //requerendo tesseract para reconhecimento de texto em imagens
+const connectDB = require('./connection');
 
 /*
 definindo as configurações do Tesseract onde: 
@@ -51,7 +52,7 @@ async function main() { //definição de funcção assíncrona para executar as 
 //O bloco abaixo tenta realizar o reconhecimento de texto na imagem convertida, caso ocorra algum erro, ele será capturado e exibido no console.
     try {
         const text = await tesseract.recognize('test_document-1.png', config) 
-        console.log("Texto reconhecido com sucesso!\n", text) 
+        console.log("Texto reconhecido com sucesso!\n"/*, text*/) 
 
 //Implementação do uso de expressões regulares no texto reconhecido para extrair infos do pedido 
        
@@ -179,6 +180,9 @@ async function main() { //definição de funcção assíncrona para executar as 
         };
         console.log("Payload gerado: \n", payload);
     }
+
+    const db = connectDB(); //chamada de função de conexão com o banco de dados
+    db.end(); //fechando a conexão com o banco de dados
 
 }
 
