@@ -55,7 +55,8 @@ _obs: para esse projeto está sendo utilizado um banco de dados MySql, adeque as
 
 1. Criando o Banco de dados: "CREATE DATABASE VISIONPAPER;"
 2. Criando a tabela de Pré-Pedido: "USE VISION PAPER; CREATE TABLE PREPEDIDO (
-	NumPedido int,
+	IDPrePedido INT AUTO_INCREMENT PRIMARY KEY,
+    NumPedido int,
     NomeCliente varchar(255),
     ItemPedido varchar(255),
     ValorUnitItem float,

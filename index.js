@@ -1,6 +1,6 @@
 const { Poppler } = require("node-poppler"); //requerendo poppler para conversão de PDF para PNG
 const tesseract = require("node-tesseract-ocr"); //requerendo tesseract para reconhecimento de texto em imagens
-const connectDB = require('./connection');
+const { criarPedido, connectDB } = require('./connection'); //requerendo funções do connection.js
 
 /*
 definindo as configurações do Tesseract onde: 
@@ -29,6 +29,7 @@ var obsPedido  = "";
 var formaPagto  = "";
 var vlFrete  = "";
 var qtdItem = "";
+let payload = "";
 
 const file = docPdf; //caminho do PDF a ser convertido
 const pd = new Poppler(); //instanciando o Poppler para conversão de PDF para PNG
@@ -159,6 +160,16 @@ async function main() { //definição de funcção assíncrona para executar as 
         }
 
         gerarPayLoad(); //chamada da função para gerar o payload com as informações extraídas do texto reconhecido
+
+        (async () => { //executa metodo assincrono para criarpedido
+            try {
+                const resultado = await criarPedido(payload); //atribui o resultado o retorno da função criarPedido que recebeu o payload tratado
+                console.log("Fim:", resultado);
+            } catch (err) {
+                console.error("Erro ao salvar Pre-Pedido:", err);
+            }
+        })();
+
                         
     } catch (error) {
       console.log("Erro na leitura do texto\n", error.message) //caso ocorra algum erro na leitura do texto, exibe a mensagem de erro
@@ -166,24 +177,26 @@ async function main() { //definição de funcção assíncrona para executar as 
 
       //gerando payload para banco
       function gerarPayLoad() {
-        const payload = {
+        payload = {
             numPedido,
             nomeCliente,
             itemPedido,
             vlUnitItem,
-            dtEntrega,
+            dtEntrega: formatToIso(dtEntrega),
             vlTotal,
             obsPedido,
             formaPagto,
             vlFrete,
             qtdItem
-        };
-        console.log("Payload gerado: \n", payload);
+            };
+        console.log("Payload gerado: \n"/*, payload*/);
+        }
+
+        //formatando a data do payload para formato ISO antes de enviar
+    function formatToIso(dataBR) {
+        const [dia, mes, ano] = dataBR.split("/");
+        return `${ano}-${mes}-${dia}`; // YYYY-MM-DD
     }
-
-    const db = connectDB(); //chamada de função de conexão com o banco de dados
-    db.end(); //fechando a conexão com o banco de dados
-
 }
 
 main(); //chamada da função assincrona principal para executar as operações!
