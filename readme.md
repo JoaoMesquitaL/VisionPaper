@@ -7,6 +7,8 @@ A ideia é ter uma ferramenta simples, que seja capaz de receber um pdf simples,
 * Tesseract OCR
 * PDF-Poppler
 * MySql
+* Multer (caso vá utilizar o api.js)
+* Express (caso vá utilizar o api.js)
 
 _obs: o projeto foi desenvolvido em uma plataforma Windows 11 sendo, assim caso utilize outro S.O verifique através dos links disponibilizados as instalações de acordo com seu Sistema Operacional vigente_
 
@@ -67,3 +69,19 @@ _obs: para esse projeto está sendo utilizado um banco de dados MySql, adeque as
     DtEntrega date,
     ObsPedido varchar(255)
 );"
+
+
+## Considerações
+Caso seu objetivo seja fazer uso apenas do que está de exemplo no index.js, basta fazer todas as instalações acima e seguir com o comando para execução "node index.js"
+
+## Instalando o Multer
+Para trabalharmos com upload e manipulação de arquivos, precisaremos instalar o multer
+
+Basta executar o comando "npm install multer" e será atualizado a pasta node_modules e os arquivos package
+
+## Instalando o Express
+Visando trabalhar com API precisamos do express para tal.
+
+Basta executar o comando "npm install express" e será atualizado a pasta node_modules e os arquivos package
+
+Com esse pacote instalado, podemos executar o arquivo "api.js" de forma dinamica usando o comando "node --watch api.js"
