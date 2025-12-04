@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "express": "^5.2.1",
     "mysql2": "^3.14.3",
     "node-poppler": "^8.0.4",
     "node-tesseract-ocr": "^2.2.1",
