@@ -1,10 +1,12 @@
+const { Poppler } = require("node-poppler"); //requerendo poppler para conversão de PDF para PNG
 const express = require('express');
-const app = express();
 const multer = require('multer');
 const { promisify } = require('util')
 const fs = require('fs')
 
-const PORT = 3000; 
+
+const PORT = 3000;  //porta definida para o serviços rest
+const app = express(); //instanciado express em constante para uso em métodos
 
 const timeStamp = Date.now(); //Armazenando a data da execução do endpoint para nomear arquivos
 
@@ -40,7 +42,31 @@ app.post("/single", upload.single("pdf"), async (req, res) =>{
         
     // validação do tipo de arquivo igual a pdf
         if (req.file.mimetype == 'application/pdf') { 
-            res.send("Arquivo salvo com sucesso")
+             //Bloco de configuração das variáveis do Poppler 
+            var pginicio = 1; //incio da página a ser convertida
+            var pgfim = 1; //fim da página a ser convertida
+            var docPdf = "transport/"+fileName //caminho do PDF a ser convertido
+            
+            const file = docPdf; //caminho do PDF a ser convertido
+            const pd = new Poppler(); //instanciando o Poppler para conversão de PDF para PNG
+            
+            const options = { //passando as variaveis de configuração para o poppler
+                firstPageToConvert: pginicio,
+                lastPageToConvert: pgfim,
+                pngFile: true,
+            };
+            
+            const outputFile = "pngs/Output_doc"+timeStamp; //definindo o nome do arquivo de saída + timestamp 
+            //O bloco abaixo tenta realizar a conversão do PDF para PNG, caso ocorra algum erro, ele será capturado e retornado para a API. 
+            try {
+                const respCairo = await pd.pdfToCairo(file, outputFile, options);
+                //res.send(`PDF Convertido para PNG com sucesso!\n`, respCairo)
+                //console.log("PDF convertido para PNG com sucesso!")
+                res.send("pdf convertido para png com sucesso")
+            }catch (error) {
+                res.send(`Erro ao tentar converter PDF para PNG!\n`, error)
+                //console.log("Erro ao tentar converter PDF para PNG", error)
+            }
         }
         else {
             //deleta arquivo salvo no diretório transport
