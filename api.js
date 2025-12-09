@@ -1,4 +1,5 @@
 const { Poppler } = require("node-poppler"); //requerendo poppler para conversão de PDF para PNG
+const tesseract = require("node-tesseract-ocr"); //requerendo tesseract para reconhecimento de texto em imagens
 const express = require('express');
 const multer = require('multer');
 const { promisify } = require('util')
@@ -35,8 +36,6 @@ const upload = multer({storage: fileStorageEngine});
 //metodo da api que recebe arquivo
 app.post("/single", upload.single("pdf"), async (req, res) =>{ 
     
-    // Cria variavel cliente e busca valor conforme passado no corpo da requisição com id "cliente"
-    const cliente = req.body.cliente 
     //definindo nome do arquivo com o timestamp e forçando a tipagem .pdf
     const fileName = req.file.originalname + timeStamp +".pdf"
         
@@ -60,18 +59,35 @@ app.post("/single", upload.single("pdf"), async (req, res) =>{
             //O bloco abaixo tenta realizar a conversão do PDF para PNG, caso ocorra algum erro, ele será capturado e retornado para a API. 
             try {
                 const respCairo = await pd.pdfToCairo(file, outputFile, options);
-                //res.send(`PDF Convertido para PNG com sucesso!\n`, respCairo)
-                //console.log("PDF convertido para PNG com sucesso!")
-                res.send("pdf convertido para png com sucesso")
+                console.log("PDF convertido para PNG com sucesso!") //Sucesso registrado no console de execução da API
+
+                //Bloco de configuração do Tesseract OCR
+                const config = {
+                lang: "por",
+                oem: 3,
+                psm: 3,
+                }
+
+                //O bloco abaixo tentar ler o png gerado via Tesseract OCR e salvar em uma string!
+                try {
+                    const textOCR = await tesseract.recognize(outputFile+"-1.png", config) 
+                    console.log("Texto reconhecido com sucesso!\n", textOCR) //Sucesso registrado no console de execução da API
+                    res.send(`Convertido com sucesso!\n Texto convertido:\n ${textOCR}`) //retorno de sucesso para a chamada da API
+                } catch (error) {
+                    res.send("Erro na leitura do texto\n") //retorno de erro para a chamada da API
+                    console.log("Erro ao converter!\n Veja o log abaixo:\n", error.message)//Erro registrado no console de execução da API
+                }
+
+                
             }catch (error) {
-                res.send(`Erro ao tentar converter PDF para PNG!\n`, error)
-                //console.log("Erro ao tentar converter PDF para PNG", error)
+                res.send(`Erro ao tentar converter PDF para PNG!`) //retorno de erro para a chamada da API
+                console.log("Erro ao tentar converter PDF para PNG\n --Veja o erro abaixo--\n", error) //Erro registrado no console de execução da API
             }
         }
         else {
             //deleta arquivo salvo no diretório transport
             await unlinkAsync(req.file.path) 
-            res.send("O arquivo enviado não é do tipo pdf\n Arquivo não foi salvo!")
+            res.send("O arquivo enviado não é do tipo pdf\n Arquivo não foi salvo!")//retorno de erro para a chamada da API
         }
     }
 );
