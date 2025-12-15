@@ -4,6 +4,7 @@ const express = require('express');
 const multer = require('multer');
 const { promisify } = require('util')
 const fs = require('fs')
+const { gerarPayLoad } = require('./payload'); //requerendo funções do connection.js
 
 
 const PORT = 3000;  //porta definida para o serviços rest
@@ -71,8 +72,18 @@ app.post("/single", upload.single("pdf"), async (req, res) =>{
                 //O bloco abaixo tentar ler o png gerado via Tesseract OCR e salvar em uma string!
                 try {
                     const textOCR = await tesseract.recognize(outputFile+"-1.png", config) 
-                    console.log("Texto reconhecido com sucesso!\n", textOCR) //Sucesso registrado no console de execução da API
-                    res.send(`Convertido com sucesso!\n Texto convertido:\n ${textOCR}`) //retorno de sucesso para a chamada da API
+                    console.log("Texto reconhecido com sucesso!\n") //Sucesso registrado no console de execução da API
+
+                    //chamada do metodo externo para aplicação de regex e criação do payload
+                    try{
+                        const payload = await gerarPayLoad(textOCR);
+                        res.send(`Payload gerado com sucesso!\n`) //retorno de sucesso para a chamada da API
+                        console.log("Payload gerado com sucesso\n", payload)
+                    } catch (error){
+                        res.send("Erro ao gerar payload com regex, confira o log da aplicação")
+                        console.log("Erro ao chamar metodo de geração de Payload\n --Veja abaixo:--\n", error.message)
+                    }
+
                 } catch (error) {
                     res.send("Erro na leitura do texto\n") //retorno de erro para a chamada da API
                     console.log("Erro ao converter!\n Veja o log abaixo:\n", error.message)//Erro registrado no console de execução da API
