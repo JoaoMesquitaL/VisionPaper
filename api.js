@@ -6,11 +6,15 @@ const { promisify } = require('util')
 const fs = require('fs')
 const { gerarPayLoad } = require('./payload'); //requerendo funções do connection.js
 
-
 const PORT = 3000;  //porta definida para o serviços rest
 const app = express(); //instanciado express em constante para uso em métodos
 
-const timeStamp = Date.now(); //Armazenando a data da execução do endpoint para nomear arquivos
+let timeStamp = ""; //variavel para armazenamento do tempo de execução do processo
+function GenerateTimeStamp(timeStamp){
+    timeStamp = Date.now(); //Armazenando a data da execução via função
+    return timeStamp 
+}
+
 
 app.get('/', (req, res) => { //para o objeto app chamei o metodo get passa a url / 
     res.send('hello world') //recebe a resposta do metodo get / e devolve um hello world
@@ -24,6 +28,7 @@ const fileStorageEngine = multer.diskStorage({
         cb(null, "./transport");
     },
     filename: (req, file, cb) =>{
+        timeStamp =  GenerateTimeStamp(timeStamp)
         cb(null, file.originalname+timeStamp+".pdf"); //nomeando arquivo c/ nome original + timestamp
     },
 });
@@ -38,6 +43,7 @@ const upload = multer({storage: fileStorageEngine});
 app.post("/single", upload.single("pdf"), async (req, res) =>{ 
     
     //definindo nome do arquivo com o timestamp e forçando a tipagem .pdf
+    timeStamp =  GenerateTimeStamp(timeStamp)
     const fileName = req.file.originalname + timeStamp +".pdf"
         
     // validação do tipo de arquivo igual a pdf
@@ -56,6 +62,7 @@ app.post("/single", upload.single("pdf"), async (req, res) =>{
                 pngFile: true,
             };
             
+            timeStamp = GenerateTimeStamp(timeStamp)
             const outputFile = "pngs/Output_doc"+timeStamp; //definindo o nome do arquivo de saída + timestamp 
             //O bloco abaixo tenta realizar a conversão do PDF para PNG, caso ocorra algum erro, ele será capturado e retornado para a API. 
             try {
@@ -78,27 +85,32 @@ app.post("/single", upload.single("pdf"), async (req, res) =>{
                     try{
                         const payload = await gerarPayLoad(textOCR);
                         res.send(`Payload gerado com sucesso!\n`) //retorno de sucesso para a chamada da API
-                        console.log("Payload gerado com sucesso\n", payload)
+                        console.log(`Payload gerado com sucesso ${timeStamp}\n`)
                     } catch (error){
-                        res.send("Erro ao gerar payload com regex, confira o log da aplicação")
-                        console.log("Erro ao chamar metodo de geração de Payload\n --Veja abaixo:--\n", error.message)
+                        timeStamp =  GenerateTimeStamp(timeStamp)
+                        res.send(`Erro ao gerar payload com regex, confira o log da aplicação \n Timestamp do erro: ${timeStamp}`)
+                        console.log(`Erro ao chamar metodo de geração de Payload\n Timestamp do erro: ${timeStamp}\n--Veja abaixo:--\n ${error.message}`)
                     }
 
                 } catch (error) {
-                    res.send("Erro na leitura do texto\n") //retorno de erro para a chamada da API
-                    console.log("Erro ao converter!\n Veja o log abaixo:\n", error.message)//Erro registrado no console de execução da API
+                    timeStamp = GenerateTimeStamp(timeStamp)
+                    res.send(`Erro na leitura do texto Timestamp do erro: ${timeStamp}\n`) //retorno de erro para a chamada da API
+                    console.log(`Erro ao converter!\n Timestamp do erro: ${timeStamp}\n Veja o log abaixo:\n ${error.message}`)
                 }
 
                 
             }catch (error) {
+                timeStamp = cGenerateTimeStamp(timeStamp)
                 res.send(`Erro ao tentar converter PDF para PNG!`) //retorno de erro para a chamada da API
-                console.log("Erro ao tentar converter PDF para PNG\n --Veja o erro abaixo--\n", error) //Erro registrado no console de execução da API
+                console.log(`Erro ao tentar converter PDF para PNG\n Timestamp do erro: ${timeStamp}\n \n--Veja abaixo:--\n ${error.message}`) //Erro registrado no console de execução da API
             }
         }
         else {
             //deleta arquivo salvo no diretório transport
+            timeStamp = GenerateTimeStamp(timeStamp)
             await unlinkAsync(req.file.path) 
-            res.send("O arquivo enviado não é do tipo pdf\n Arquivo não foi salvo!")//retorno de erro para a chamada da API
+            res.send(`O arquivo enviado não é do tipo pdf\n Arquivo não foi salvo! \n Time Stamp do erro: ${timeStamp}`)//retorno de erro para a chamada da API
+            console.log(`Erro de tipo de arquivo enviado\n Time stamp do erro: ${timeStamp}`)
         }
     }
 );
